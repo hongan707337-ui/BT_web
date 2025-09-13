@@ -1,0 +1,30 @@
+﻿@model QuanLyDoanhThuBH.Models.HoaDon
+
+@{
+    ViewData["Title"] = "Xóa hóa đơn";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Bạn có chắc chắn muốn xóa hóa đơn này?</h4>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-2">Mã hóa đơn</dt>
+    <dd class="col-sm-10">@Model.MaHD</dd>
+
+    <dt class="col-sm-2">Khách hàng</dt>
+    <dd class="col-sm-10">@Model.KhachHang?.TenKH</dd>
+
+    <dt class="col-sm-2">Sản phẩm</dt>
+    <dd class="col-sm-10">@Model.SanPham?.TenSP</dd>
+
+    <dt class="col-sm-2">Tổng tiền</dt>
+    <dd class="col-sm-10">@Model.TongTien.ToString("N0") đ</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="MaHD" />
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

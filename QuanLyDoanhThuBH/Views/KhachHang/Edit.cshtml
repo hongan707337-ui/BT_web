@@ -1,0 +1,28 @@
+﻿@model QuanLyDoanhThuBH.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Sửa khách hàng";
+}
+
+<div class="container mt-3" style="max-width: 600px;">
+    <h2>Sửa thông tin khách hàng</h2>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="MaKH" /> <!-- Giữ ID -->
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="TenKH"></label>
+            <input type="text" class="form-control" asp-for="TenKH" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" asp-for="Email"></label>
+            <input type="email" class="form-control" asp-for="Email" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" asp-for="SoDienThoai"></label>
+            <input type="text" class="form-control" asp-for="SoDienThoai" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

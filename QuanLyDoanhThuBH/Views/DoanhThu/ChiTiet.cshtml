@@ -1,0 +1,26 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Chi tiết Doanh thu";
+    var dt = Model; // Model gửi từ controller
+}
+
+<div class="container mt-3">
+    <h2>@ViewData["Title"] - Tháng @dt.Month / @dt.Year</h2>
+
+    <dl class="row">
+        <dt class="col-sm-3">Tháng</dt>
+        <dd class="col-sm-9">@dt.Month</dd>
+
+        <dt class="col-sm-3">Năm</dt>
+        <dd class="col-sm-9">@dt.Year</dd>
+
+        <dt class="col-sm-3">Tổng số hóa đơn</dt>
+        <dd class="col-sm-9">@dt.InvoiceCount</dd>
+
+        <dt class="col-sm-3">Tổng doanh thu</dt>
+        <dd class="col-sm-9">@string.Format("{0:N0} VNĐ", dt.TotalRevenue)</dd>
+    </dl>
+
+    <a class="btn btn-secondary" href="javascript:history.back()">Quay lại</a>
+</div>

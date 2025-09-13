@@ -1,0 +1,37 @@
+﻿@model IEnumerable<QuanLyDoanhThuBH.Models.KhachHang>
+
+@{
+    ViewData["Title"] = "Khách hàng";
+}
+
+<div class="container mt-3">
+    <h2>Danh sách Khách hàng</h2>
+    <a class="btn btn-primary mb-2" asp-action="Create">+ Thêm khách hàng</a>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Mã KH</th>
+                <th>Tên khách hàng</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var kh in Model)
+            {
+                <tr>
+                    <td>@kh.MaKH</td>
+                    <td>@kh.TenKH</td>
+                    <td>@kh.Email</td>
+                    <td>@kh.SoDienThoai</td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@kh.MaKH">Sửa</a>
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@kh.MaKH">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

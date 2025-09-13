@@ -1,0 +1,57 @@
+﻿@model IEnumerable<QuanLyDoanhThuBH.Models.DoanhThu>
+
+@{
+    ViewData["Title"] = "Báo cáo Doanh thu";
+    var year = ViewBag.Year ?? DateTime.Now.Year;
+    var data = Model ?? Enumerable.Empty<QuanLyDoanhThuBH.Models.DoanhThu>();
+}
+
+<div class="container mt-3">
+    <h2>@ViewData["Title"] (@year)</h2>
+
+    <canvas id="chartBaoCao" height="90"></canvas>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Tháng</th>
+                <th class="text-end">Doanh thu</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in data)
+            {
+                <tr>
+                    <td>@r.Thang</td>
+                    <td class="text-end">@string.Format("{0:N0} VNĐ", r.TongDoanhThu)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                data.Select(d => new { month = d.Thang, revenue = d.TongDoanhThu }).ToArray()
+        ));
+
+    const labels = chartData.map(d => 'Tháng ' + d.month);
+    const values = chartData.map(d => d.revenue);
+
+    const ctx = document.getElementById('chartBaoCao').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Doanh thu',
+                data: values,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>

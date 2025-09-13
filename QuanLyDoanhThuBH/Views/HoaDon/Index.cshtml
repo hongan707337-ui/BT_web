@@ -1,0 +1,45 @@
+﻿@model IEnumerable<QuanLyDoanhThuBH.Models.HoaDon>
+
+@{
+    ViewData["Title"] = "Danh sách hóa đơn";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">+ Thêm hóa đơn</a>
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã HD</th>
+            <th>Ngày tạo</th>
+            <th>Khách hàng</th>
+            <th>Sản phẩm</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+            <th>Tổng tiền</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaHD</td>
+                <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
+                <td>@item.KhachHang?.TenKH</td>
+                <td>@item.SanPham?.TenSP</td>
+                <td>@item.DonGia.ToString("N0") đ</td>
+                <td>@item.SoLuong</td>
+                <td>@item.TongTien.ToString("N0") đ</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.MaHD">Xem</a> |
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.MaHD">Sửa</a> |
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.MaHD">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

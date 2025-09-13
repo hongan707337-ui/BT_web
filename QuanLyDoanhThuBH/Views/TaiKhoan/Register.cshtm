@@ -1,0 +1,34 @@
+﻿@model QuanLyDoanhThuBH.Models.TaiKhoan
+
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<form asp-action="Register" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="TenDN" class="form-label">Tên đăng nhập</label>
+        <input asp-for="TenDN" class="form-control" />
+        <span asp-validation-for="TenDN" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="MatKhau" class="form-label">Mật khẩu</label>
+        <input asp-for="MatKhau" type="password" class="form-control" />
+        <span asp-validation-for="MatKhau" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="ConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
+        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Đăng ký</button>
+    <a asp-action="Login" class="btn btn-link">Đã có tài khoản? Đăng nhập</a>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger mt-3">@ViewBag.Error</div>
+}
