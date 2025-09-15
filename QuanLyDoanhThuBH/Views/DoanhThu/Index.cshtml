@@ -1,58 +1,42 @@
-﻿@model IEnumerable<QuanLyDoanhThuBH.Models.DoanhThu>
-
-@{
-    ViewData["Title"] = "Tổng quan Doanh thu";
-    var data = Model ?? Enumerable.Empty<QuanLyDoanhThuBH.Models.DoanhThu>();
+﻿@{
+    ViewData["Title"] = "Dashboard Doanh thu";
+    var labels = ViewBag.ChartLabels as string[];
+    var data = ViewBag.ChartData as decimal[];
 }
 
 <div class="container mt-3">
-    <h2>@ViewData["Title"]</h2>
+    <h2 class="mb-4">@ViewData["Title"] - @ViewBag.Year</h2>
 
-    <canvas id="chartRevenue" height="90"></canvas>
-
-    <table class="table table-bordered mt-3">
-        <thead class="table-dark">
-            <tr>
-                <th>Tháng</th>
-                <th>Năm</th>
-                <th class="text-end">Doanh thu</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var r in data)
-            {
-                <tr>
-                    <td>@r.Thang</td>
-                    <td>@r.Nam</td>
-                    <td class="text-end">@string.Format("{0:N0} VNĐ", r.TongDoanhThu)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <canvas id="revenueChart" width="600" height="300"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const chartData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
-                data.Select(d => new { month = d.Thang, revenue = d.TongDoanhThu }).ToArray()
-        ));
-
-    const labels = chartData.map(d => 'Tháng ' + d.month);
-    const values = chartData.map(d => d.revenue);
-
-    const ctx = document.getElementById('chartRevenue').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Doanh thu',
-                data: values,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: { responsive: true }
-    });
-</script>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('revenueChart').getContext('2d');
+        var revenueChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(labels)),
+                datasets: [{
+                    label: 'Doanh thu (VNĐ)',
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(data)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + ' đ';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

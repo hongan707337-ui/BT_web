@@ -1,44 +1,84 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using QuanLyDoanhThuBH.Data;
 using QuanLyDoanhThuBH.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 
 namespace QuanLyDoanhThuBH.Controllers
 {
     public class DoanhThuController : Controller
     {
-        // GET: /DoanhThu/Index
-        public IActionResult Index()
-        {
-            // Dữ liệu giả lập, sau này sẽ lấy từ database
-            var data = new List<DoanhThu>
-            {
-                new DoanhThu { Id = 1, Thang = 1, Nam = 2025, TongDoanhThu = 1000000 },
-                new DoanhThu { Id = 2, Thang = 2, Nam = 2025, TongDoanhThu = 2200000 },
-                new DoanhThu { Id = 3, Thang = 3, Nam = 2025, TongDoanhThu = 1400000 }
-            };
+        private readonly QuanLyContext _context;
 
-            return View(data);
+        public DoanhThuController(QuanLyContext context)
+        {
+            _context = context;
         }
 
-        // GET: /DoanhThu/BaoCao
-        public IActionResult BaoCao(int? year)
+
+        public async Task<IActionResult> Index()
         {
+
+            int currentYear = DateTime.Now.Year;
+
+            var data = await _context.HoaDon
+                .Where(h => h.NgayTao.Year == currentYear)
+                .GroupBy(h => h.NgayTao.Month)
+                .Select(g => new
+                {
+                    Thang = g.Key,
+                    TongDoanhThu = g.Sum(x => x.TongTien)
+                })
+                .OrderBy(x => x.Thang)
+                .ToListAsync();
+
+            ViewBag.Year = currentYear;
+            ViewBag.ChartLabels = data.Select(d => "Tháng " + d.Thang).ToArray();
+            ViewBag.ChartData = data.Select(d => d.TongDoanhThu).ToArray();
+
+            return View();
+        }
+
+
+        public async Task<IActionResult> BaoCao(int? year, int? month)
+        {
+            var availableYears = await _context.HoaDon
+                .Select(h => h.NgayTao.Year)
+                .Distinct()
+                .OrderBy(y => y)
+                .ToListAsync();
+
+            ViewBag.AvailableYears = availableYears;
+            ViewBag.AvailableMonths = Enumerable.Range(1, 12).ToList();
+            ViewBag.SelectedYear = year;
+            ViewBag.SelectedMonth = month;
+
             int nam = year ?? DateTime.Now.Year;
 
-            // Dữ liệu giả lập
-            var data = new List<DoanhThu>
-            {
-                new DoanhThu { Id = 1, Thang = 1, Nam = nam, TongDoanhThu = 5000000 },
-                new DoanhThu { Id = 2, Thang = 2, Nam = nam, TongDoanhThu = 7200000 },
-                new DoanhThu { Id = 3, Thang = 3, Nam = nam, TongDoanhThu = 4500000 }
-            };
+            var query = _context.HoaDon.AsQueryable();
+            query = query.Where(h => h.NgayTao.Year == nam);
 
-            ViewBag.Year = nam;
-            ViewBag.Mode = "month"; // demo: tháng, quý, năm
+            if (month.HasValue)
+            {
+                query = query.Where(h => h.NgayTao.Month == month.Value);
+            }
+
+            var data = await query
+                .GroupBy(h => new { h.NgayTao.Year, h.NgayTao.Month })
+                .Select(g => new DoanhThu
+                {
+                    Nam = g.Key.Year,
+                    Thang = g.Key.Month,
+                    TongDoanhThu = g.Sum(x => x.TongTien)
+                })
+                .OrderBy(d => d.Thang)
+                .ToListAsync();
 
             return View(data);
         }
+
+
+       
     }
 }
+

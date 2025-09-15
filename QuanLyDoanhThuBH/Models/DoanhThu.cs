@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace QuanLyDoanhThuBH.Models
 {
     [Table("DoanhThu")]
+    
     public class DoanhThu
     {
         [Key]
@@ -18,7 +19,7 @@ namespace QuanLyDoanhThuBH.Models
         public int Nam { get; set; }
 
 
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal TongDoanhThu { get; set; }
+      
+        public int TongDoanhThu { get; set; }
     }
 }

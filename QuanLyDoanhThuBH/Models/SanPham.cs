@@ -14,7 +14,9 @@ namespace QuanLyDoanhThuBH.Models
         [StringLength(100)]
         public string TenSP { get; set; } = null!;
         [Column(TypeName = "decimal(18,2)")]
+        [Required]
         public decimal DonGia { get; set; }
+        [Required]
         public int SoLuongTon { get; set; }
         public ICollection<HoaDon> HoaDon { get; set; } = new List<HoaDon>();
     }

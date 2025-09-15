@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<h1>Đăng nhập</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="TaiKhoan" asp-action="DangNhap" method="post">
+            <div class="form-group">
+                <label for="TenDN">Tên đăng nhập</label>
+                <input type="text" id="TenDN" name="TenDN" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="MatKhau">Mật khẩu</label>
+                <input type="password" id="MatKhau" name="MatKhau" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Đăng nhập</button>
+            </div>
+            <br />
+            <p>
+                Chưa có tài khoản? <a asp-controller="TaiKhoan" asp-action="DangKy">Đăng ký ngay</a>
+            </p>
+        </form>
+    </div>
+</div>

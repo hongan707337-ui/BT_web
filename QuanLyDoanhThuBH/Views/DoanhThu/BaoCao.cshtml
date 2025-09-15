@@ -2,56 +2,94 @@
 
 @{
     ViewData["Title"] = "Báo cáo Doanh thu";
-    var year = ViewBag.Year ?? DateTime.Now.Year;
-    var data = Model ?? Enumerable.Empty<QuanLyDoanhThuBH.Models.DoanhThu>();
+    var years = ViewBag.AvailableYears as List<int>;
+    var months = ViewBag.AvailableMonths as List<int>;
+    int? selectedYear = ViewBag.SelectedYear as int?;
+    int? selectedMonth = ViewBag.SelectedMonth as int?;
 }
 
-<div class="container mt-3">
-    <h2>@ViewData["Title"] (@year)</h2>
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary">@ViewData["Title"]</h2>
 
-    <canvas id="chartBaoCao" height="90"></canvas>
+    <!-- Form lọc -->
+    <form method="get" asp-action="BaoCao" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label for="year" class="form-label">Năm</label>
+            <select name="year" class="form-select" id="year">
+                @if (years != null)
+                {
+                    foreach (var y in years)
+                    {
+                        if (ViewBag.SelectedYear == y)
+                        {
+                            <option value="@y" selected="selected">@y</option>
+                        }
+                        else
+                        {
+                            <option value="@y">@y</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="month" class="form-label">Tháng</label>
+            <select name="month" class="form-select" id="month">
+                <option value="">-- Tất cả --</option>
+                @if (months != null)
+                {
+                    foreach (var m in months)
+                    {
+                        if (ViewBag.SelectedMonth == m)
+                        {
+                            <option value="@m" selected="selected">@m</option>
+                        }
+                        else
+                        {
+                            <option value="@m">@m</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-primary">Lọc</button>
+        </div>
+    </form>
 
-    <table class="table table-striped mt-3">
-        <thead>
+    <!-- Bảng báo cáo -->
+    <table class="table table-bordered table-striped text-center">
+        <thead class="table-dark">
             <tr>
                 <th>Tháng</th>
-                <th class="text-end">Doanh thu</th>
+                <th>Năm</th>
+                <th>Tổng doanh thu</th>
+                <th>Thao tác</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var r in data)
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Thang</td>
+                        <td>@item.Nam</td>
+                        <td>@item.TongDoanhThu.ToString("N0") đ</td>
+                        <td>
+                            <a asp-action="Details" asp-route-year="@item.Nam" asp-route-month="@item.Thang" class="btn btn-sm btn-info">
+                                Xem chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@r.Thang</td>
-                    <td class="text-end">@string.Format("{0:N0} VNĐ", r.TongDoanhThu)</td>
+                    <td colspan="4" class="text-muted">Không có dữ liệu</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const chartData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
-                data.Select(d => new { month = d.Thang, revenue = d.TongDoanhThu }).ToArray()
-        ));
-
-    const labels = chartData.map(d => 'Tháng ' + d.month);
-    const values = chartData.map(d => d.revenue);
-
-    const ctx = document.getElementById('chartBaoCao').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Doanh thu',
-                data: values,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true
-            }]
-        },
-        options: { responsive: true }
-    });
-</script>

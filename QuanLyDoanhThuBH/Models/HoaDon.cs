@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,24 +19,30 @@ namespace QuanLyDoanhThuBH.Models
 
         // FK tới SanPham
         [ForeignKey("SanPham")]
+        [Required]
         public int MaSP { get; set; }
+        
         public SanPham? SanPham { get; set; }
 
 
         // FK tới KhachHang
         [ForeignKey("KhachHang")]
+        [Required]
         public int MaKH { get; set; }
+      
         public KhachHang? KhachHang { get; set; }
 
 
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal DonGia { get; set; }
+        [Required]
+
+        public int DonGia { get; set; }
 
 
+        [Required]
         public int SoLuong { get; set; }
 
+        [Required]
+        public int TongTien { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal TongTien { get; set; }
     }
 }

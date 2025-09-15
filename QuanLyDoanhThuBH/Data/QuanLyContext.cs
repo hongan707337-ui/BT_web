@@ -25,22 +25,22 @@ namespace QuanLyDoanhThuBH.Data
 
             modelBuilder.Entity<DoanhThu>()
             .Property(d => d.TongDoanhThu)
-            .HasColumnType("decimal(18,2)");
+            .HasColumnType("int");
 
 
             modelBuilder.Entity<SanPham>()
             .Property(s => s.DonGia)
-            .HasColumnType("decimal(18,2)");
+            .HasColumnType("int");
 
 
             modelBuilder.Entity<HoaDon>()
             .Property(h => h.DonGia)
-            .HasColumnType("decimal(18,2)");
+            .HasColumnType("int");
 
 
             modelBuilder.Entity<HoaDon>()
             .Property(h => h.TongTien)
-            .HasColumnType("decimal(18,2)");
+            .HasColumnType("int");
 
 
             // Quan hệ: KhachHang - HoaDon

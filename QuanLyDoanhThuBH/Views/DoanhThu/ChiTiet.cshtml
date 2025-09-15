@@ -1,26 +1,44 @@
-﻿@model dynamic
+﻿@model IEnumerable<QuanLyDoanhThuBH.Models.HoaDon>
 
 @{
-    ViewData["Title"] = "Chi tiết Doanh thu";
-    var dt = Model; // Model gửi từ controller
+    ViewData["Title"] = $"Chi tiết hóa đơn - {ViewBag.Month}/{ViewBag.Year}";
 }
 
 <div class="container mt-3">
-    <h2>@ViewData["Title"] - Tháng @dt.Month / @dt.Year</h2>
+    <h2>@ViewData["Title"]</h2>
 
-    <dl class="row">
-        <dt class="col-sm-3">Tháng</dt>
-        <dd class="col-sm-9">@dt.Month</dd>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã HĐ</th>
+                <th>Khách hàng</th>
+                <th>Sản phẩm</th>
+                <th>Ngày tạo</th>
+                <th>Tổng tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var hd in Model)
+                {
+                    <tr>
+                        <td>@hd.MaHD</td>
+                        <td>@hd.KhachHang?.TenKH</td>
+                        <td>@hd.SanPham?.TenSP</td>
+                        <td>@hd.NgayTao.ToString("dd/MM/yyyy")</td>
+                        <td>@hd.TongTien.ToString("N0") đ</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">Không có hóa đơn nào</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-        <dt class="col-sm-3">Năm</dt>
-        <dd class="col-sm-9">@dt.Year</dd>
-
-        <dt class="col-sm-3">Tổng số hóa đơn</dt>
-        <dd class="col-sm-9">@dt.InvoiceCount</dd>
-
-        <dt class="col-sm-3">Tổng doanh thu</dt>
-        <dd class="col-sm-9">@string.Format("{0:N0} VNĐ", dt.TotalRevenue)</dd>
-    </dl>
-
-    <a class="btn btn-secondary" href="javascript:history.back()">Quay lại</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </div>

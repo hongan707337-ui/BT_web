@@ -1,50 +1,78 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using QuanLyDoanhThuBH.Data;
+using QuanLyDoanhThuBH.Models;
 
 namespace QuanLyDoanhThuBH.Controllers
 {
-    public class AccountController : Controller
+    public class TaiKhoanController : Controller
     {
-        // GET: /Account/Login
-        public IActionResult Login()
+        private readonly QuanLyContext _context;
+
+        public TaiKhoanController(QuanLyContext context)
+        {
+            _context = context;
+        }
+
+        // GET: TaiKhoan/DangKy
+        public IActionResult DangKy()
         {
             return View();
         }
 
-        // POST: /Account/Login
+        // POST: TaiKhoan/DangKy
         [HttpPost]
-        public IActionResult Login(string username, string password)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DangKy([Bind("TenDN,MatKhau")] TaiKhoan taiKhoan)
         {
-            // TODO: kiểm tra thông tin đăng nhập
-            // Đây là dữ liệu giả để test view
-            if (username == "admin" && password == "123")
+            if (ModelState.IsValid)
             {
-                // Redirect về trang chủ nếu đăng nhập đúng
-                return RedirectToAction("Index", "Home");
+                _context.Add(taiKhoan);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("DangNhap","TaiKhoan"); // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
             }
-            ViewBag.Error = "Tên đăng nhập hoặc mật khẩu sai!";
-            return View();
+            return View(taiKhoan);
         }
-
-        // GET: /Account/Register
-        public IActionResult Register()
+        // GET: TaiKhoan/DangNhap
+        public IActionResult DangNhap()
         {
             return View();
         }
 
-        // POST: /Account/Register
+        // POST: TaiKhoan/DangNhap
         [HttpPost]
-        public IActionResult Register(string username, string password, string email)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DangNhap(string TenDN, string MatKhau)
         {
-            // TODO: lưu thông tin user mới (dữ liệu giả)
-            ViewBag.Message = $"Đăng ký thành công cho user: {username}";
-            return View();
+            // 1. Tìm tài khoản trong cơ sở dữ liệu
+            var taiKhoan = await _context.TaiKhoan.FirstOrDefaultAsync(tk => tk.TenDN == TenDN && tk.MatKhau == MatKhau);
+
+            // 2. Kiểm tra tài khoản có tồn tại không
+            if (taiKhoan == null)
+            {
+                // Trả về thông báo lỗi nếu không tìm thấy
+                ViewData["ErrorMessage"] = "Tên đăng nhập hoặc mật khẩu không đúng.";
+                return View();
+            }
+
+            // 4. Chuyển hướng đến trang chính
+            return RedirectToAction("TrangChu", "Home");
         }
 
-        // GET: /Account/Logout
-        public IActionResult Logout()
+        // GET: TaiKhoan/DangXuat
+        [HttpGet]
+        public async Task<IActionResult> DangXuat()
         {
-            // TODO: xóa session hoặc cookie
+            // Xóa cookie đăng nhập
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // ✅ Chuyển về Home sau khi logout
             return RedirectToAction("Index", "Home");
         }
-    }
+
 }
+}
+

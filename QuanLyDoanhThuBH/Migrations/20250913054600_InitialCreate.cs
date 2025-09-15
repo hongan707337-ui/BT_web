@@ -19,7 +19,7 @@ namespace QuanLyDoanhThuBH.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Thang = table.Column<int>(type: "int", nullable: false),
                     Nam = table.Column<int>(type: "int", nullable: false),
-                    TongDoanhThu = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    TongDoanhThu = table.Column<int>(type: "int)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,7 +49,7 @@ namespace QuanLyDoanhThuBH.Migrations
                     MaSP = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenSP = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DonGia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DonGia = table.Column<int>(type: "int", nullable: false),
                     SoLuongTon = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -80,9 +80,9 @@ namespace QuanLyDoanhThuBH.Migrations
                     NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MaSP = table.Column<int>(type: "int", nullable: false),
                     MaKH = table.Column<int>(type: "int", nullable: false),
-                    DonGia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DonGia = table.Column<int>(type: "int", nullable: false),
                     SoLuong = table.Column<int>(type: "int", nullable: false),
-                    TongTien = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    TongTien = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

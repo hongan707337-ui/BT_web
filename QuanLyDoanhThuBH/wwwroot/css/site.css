@@ -1,22 +1,142 @@
-html {
-  font-size: 14px;
+﻿html {
+  font-size: 16px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
+    html {
+        font-size: 16px;
+    }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+    html {
+        position: relative;
+        min-height: 100%;
+    }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
 
-body {
-  margin-bottom: 60px;
-}
+    /* Style chung cho body */
+    body {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Hiệu ứng chuyển động cho tiêu đề */
+    .display-4 {
+        animation: fadeInDown 1s ease-in-out;
+    }
+
+    /* Định nghĩa hiệu ứng */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translate3d(0, -20px, 0);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+    .card-title {
+        color: #007bff;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .card-text {
+        color: #6c757d;
+    }
+
+    .btn {
+        border-radius: 50px; /* Bo tròn nút bấm */
+        padding: 10px 25px;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #1e7e34;
+            border-color: #1c7430;
+        }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-info:hover {
+            background-color: #117a8b;
+            border-color: #10707f;
+        }
+    /* Nền tối, chữ trắng để nổi bật */
+    .navbar {
+        background-color: #343a40 !important; /* Màu nền đen nhạt */
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+        .navbar .nav-link {
+            color: #f8f9fa !important; /* Màu chữ trắng */
+            font-weight: 500;
+            transition: color 0.3s ease-in-out;
+        }
+            /* Thay đổi màu khi di chuột qua */
+            .navbar .nav-link:hover {
+                color: #007bff !important; /* Màu xanh dương nhạt */
+            }
+    /* Tên ứng dụng nổi bật hơn */
+    .navbar-brand {
+        color: #fff !important; /* Màu trắng */
+        font-weight: bold;
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    .navbar .nav-item .nav-link.active {
+        color: #007bff !important;
+        border-bottom: 2px solid #007bff;
+    }
+
+    .doanh-thu-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .fade-in-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }

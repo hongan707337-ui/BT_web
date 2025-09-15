@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Đăng xuất";
+}
+
+<div class="container mt-5 text-center">
+    <h2>Bạn có chắc muốn đăng xuất không?</h2>
+    <form asp-action="Logout" asp-controller="Account" method="get">
+        <button type="submit" class="btn btn-danger">Đăng xuất</button>
+        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+
