@@ -77,8 +77,31 @@ namespace QuanLyDoanhThuBH.Controllers
             return View(data);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ChiTiet(int month, int year) // Đổi tên tham số
+        {
+            // 1. Kiểm tra tính hợp lệ của tham số
+            if (month < 1 || month > 12 || year < 1900 || year > DateTime.Now.Year)
+            {
+                // Trả về trang lỗi hoặc chuyển hướng
+                return BadRequest("Tháng hoặc năm không hợp lệ.");
+            }
 
-       
+            // 2. Truy vấn dữ liệu từ database
+            var hoaDonList = await _context.HoaDon
+                                         .Include(hd => hd.KhachHang)
+                                         .Include(hd => hd.SanPham)
+                                         .Where(hd => hd.NgayTao.Month == month && hd.NgayTao.Year == year)
+                                         .OrderByDescending(hd => hd.NgayTao)
+                                         .ToListAsync();
+
+            // 3. Truyền dữ liệu sang View
+            ViewBag.Month = month; // Sử dụng tên mới
+            ViewBag.Year = year;   // Sử dụng tên mới
+            return View(hoaDonList);
+        }
+
+
     }
 }
 

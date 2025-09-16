@@ -1,12 +1,46 @@
 ﻿@{
     ViewData["Title"] = "Trang chủ";
 }
-
-<div class="text-center">
+<div id="tcenter" class="text-center">
     <h1 class="display-4">Chào mừng đến với Hệ thống quản lý bán hàng</h1>
     <p class="lead">Nơi quản lý toàn diện mọi hoạt động kinh doanh của bạn.</p>
 </div>
+<div class="slideshow-container">
+    <div class="mySlides fade">
+        <img src="/image/bg.webp" style="width:100%">
+        <div class="text">Quản lý hiệu quả</div>
+    </div>
 
+    <div class="mySlides fade">
+        <img src="/image/giaodien.webp" style="width:100%">
+        <div class="text">Tối ưu lợi nhuận</div>
+    </div>
+
+    <div class="mySlides fade">
+        <img src="/image/maytinh.jpg" style="width:100%">
+        <div class="text">Giao diện thân thiện</div>
+    </div>
+
+    <div class="mySlides fade">
+        <img src="/image/tang.webp" style="width:100%">
+        <div class="text last-slide-content">
+            <h3>Sẵn sàng để bắt đầu?</h3>
+            <a href="#dangnhap" class="btn btn-lg btn-primary">Bắt đầu ngay</a>
+        </div>
+    </div>
+
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+
+<br>
+
+<div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+    <span class="dot" onclick="currentSlide(4)"></span>
+</div>
 <hr />
 
 <div class="row mt-5">
@@ -17,7 +51,7 @@
                 <p class="card-text">
                     Tạo, xem, sửa đổi và xóa các hóa đơn một cách dễ dàng. Theo dõi lịch sử giao dịch và tổng hợp chi tiết cho từng hóa đơn.
                 </p>
-                <a href="/HoaDons" class="btn btn-primary">Xem Hóa đơn</a>
+                <a href="/TaiKhoan/DangNhap" class="btn btn-primary">Xem Hóa đơn</a>
             </div>
         </div>
     </div>
@@ -28,7 +62,7 @@
                 <p class="card-text">
                     Cập nhật danh sách sản phẩm, giá bán và thông tin chi tiết. Quản lý kho hàng hiệu quả, đảm bảo luôn có đủ sản phẩm để đáp ứng nhu cầu khách hàng.
                 </p>
-                <a href="/SanPhams" class="btn btn-primary">Xem Sản phẩm</a>
+                <a href="/TaiKhoan/DangNhap" class="btn btn-primary">Xem Sản phẩm</a>
             </div>
         </div>
     </div>
@@ -39,18 +73,33 @@
                 <p class="card-text">
                     Lưu trữ thông tin khách hàng, lịch sử mua hàng và các dữ liệu quan trọng khác. Xây dựng mối quan hệ tốt hơn với khách hàng thân thiết.
                 </p>
-                <a href="/KhachHang" class="btn btn-primary">Xem Khách hàng</a>
+                <a href="/TaiKhoan/DangNhap" class="btn btn-primary">Xem Khách hàng</a>
             </div>
         </div>
     </div>
 </div>
 
 <div class="row mt-4">
-    <div class="col-md-12 text-center">
+    <div id="dangnhap" class="col-md-12 text-center">
         <p>
             Bạn có thể đăng nhập để truy cập đầy đủ các chức năng quản lý, hoặc đăng ký tài khoản mới nếu chưa có.
         </p>
         <a href="/TaiKhoan/DangNhap" class="btn btn-success me-2">Đăng nhập</a>
         <a href="/TaiKhoan/DangKy" class="btn btn-info">Đăng ký</a>
     </div>
+
 </div>
+<script>
+document.getElementById('bat-dau-ngay').addEventListener('click', function(event) {
+    // Ngăn chặn hành vi mặc định của liên kết (chuyển hướng đột ngột)
+    event.preventDefault();
+
+    // Tìm phần tử đích
+    const targetElement = document.getElementById('noi-dung-chinh');
+
+    // Cuộn trang đến phần tử đích một cách mượt mà
+    targetElement.scrollIntoView({
+        behavior: 'smooth'
+    });
+});
+</script>

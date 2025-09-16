@@ -1,8 +1,4 @@
-﻿html {
-  font-size: 16px;
-}
-
-@media (min-width: 768px) {
+﻿@media (min-width: 768px) {
     html {
         font-size: 16px;
     }
@@ -11,19 +7,41 @@
         position: relative;
         min-height: 100%;
     }
-
-
-    /* Style chung cho body */
+}
+    /* Style chung cho body 
     body {
         background-color: #f8f9fa;
         color: #495057;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    }*/
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Xác định các hàng */
+    min-height: 100vh;
+}
+body {
+    background-color: var(--light-bg-color);
+    color: var(--primary-color);
+}
 
+header, main, footer {
+    /* Các thẻ này sẽ tự động được sắp xếp vào các hàng */
+}
     /* Hiệu ứng chuyển động cho tiêu đề */
     .display-4 {
         animation: fadeInDown 1s ease-in-out;
     }
+:root {
+    --primary-color: #2c3e50; /* Xám xanh đậm */
+    --secondary-color: #34495e; /* Xám xanh nhạt hơn */
+    --accent-color: #1abc9c; /* Xanh ngọc */
+    --text-color: #ecf0f1; /* Trắng ngà */
+    --light-bg-color: #f4f6f9; /* Nền sáng */
+    --dark-bg-color: #2c3e50; /* Nền tối */
+}
+
+
+
 
     /* Định nghĩa hiệu ứng */
     @keyframes fadeInDown {
@@ -37,17 +55,16 @@
             transform: translate3d(0, 0, 0);
         }
     }
-
-    .card {
+.card {
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
 
-        .card:hover {
+.card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
+ }
 
     .card-title {
         color: #007bff;
@@ -66,12 +83,12 @@
         transition: background-color 0.3s ease-in-out;
     }
 
-    .btn-primary {
+.btn-primary {
         background-color: #007bff;
         border-color: #007bff;
     }
 
-        .btn-primary:hover {
+    .btn-primary:hover {
             background-color: #0056b3;
             border-color: #004085;
         }
@@ -81,7 +98,7 @@
         border-color: #28a745;
     }
 
-        .btn-success:hover {
+    .btn-success:hover {
             background-color: #1e7e34;
             border-color: #1c7430;
         }
@@ -91,35 +108,60 @@
         border-color: #17a2b8;
     }
 
-        .btn-info:hover {
+    .btn-info:hover {
             background-color: #117a8b;
             border-color: #10707f;
         }
-    /* Nền tối, chữ trắng để nổi bật */
-    .navbar {
-        background-color: #343a40 !important; /* Màu nền đen nhạt */
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
+.navbar {
+    /* Đảm bảo navbar chiếm toàn bộ chiều rộng */
+    width: 100%;
+    /* Tăng kích thước padding để navbar cao hơn */
+    padding: 1.5rem 2rem;
+    /* Sử dụng màu nền chính */
+    background-color: var(--primary-color) !important;
+    transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+}
 
-        .navbar .nav-link {
-            color: #f8f9fa !important; /* Màu chữ trắng */
+.navbar-brand {
+    font-size: 2rem; /* Tăng kích thước font */
+    font-weight: 700;
+    color: var(--text-color) !important;
+}
+
+.navbar .nav-link {
+    color: var(--text-color) !important;
+    font-size: 1.1rem; /* Tăng kích thước font cho liên kết */
+    font-weight: 500;
+    margin: 0 10px;
+}
+
+
+
+/* Nền tối, chữ trắng để nổi bật*/ 
+/*.navbar {
+    background-color: #343a40 !important; /* Màu nền đen nhạt 
+    padding-top: 1rem;
+    padding-bottom: 1rem; 
+}*/
+
+    /*.navbar .nav-link {
+            color: #f8f9fa !important; /* Màu chữ trắng 
             font-weight: 500;
             transition: color 0.3s ease-in-out;
-        }
+        }*/
+
             /* Thay đổi màu khi di chuột qua */
-            .navbar .nav-link:hover {
-                color: #007bff !important; /* Màu xanh dương nhạt */
+    .navbar .nav-link:hover {
+      color: #007bff !important; /* Màu xanh dương nhạt */
             }
-    /* Tên ứng dụng nổi bật hơn */
+    /* Tên ứng dụng nổi bật hơn 
     .navbar-brand {
-        color: #fff !important; /* Màu trắng */
+        color: #fff !important; /* Màu trắng 
         font-weight: bold;
         font-size: 1.5rem;
         letter-spacing: 1px;
-    }
-
-    .navbar .nav-item .nav-link.active {
+    }*/
+.navbar .nav-item .nav-link.active {
         color: #007bff !important;
         border-bottom: 2px solid #007bff;
     }
@@ -136,7 +178,113 @@
         transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
 
-        .fade-in-section.is-visible {
+    .fade-in-section.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
+
+
+/* Container của slideshow */
+.slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+    overflow: hidden; /* Quan trọng để ảnh không tràn ra ngoài */
+}
+
+/* Các slide */
+.mySlides {
+    display: none;
+}
+
+/* Hiệu ứng mờ dần */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+/* Nội dung trên ảnh */
+.text {
+    color: #f2f2f2;
+    font-size: 1.5rem;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Nội dung của slide cuối cùng */
+.last-slide-content {
+    background: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+    .last-slide-content h3 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .last-slide-content .btn {
+        font-size: 1.5rem;
+        padding: 15px 30px;
+        border-radius: 50px;
+    }
+
+/* Các nút điều hướng (mũi tên) */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+    .prev:hover, .next:hover {
+        background-color: rgba(0,0,0,1);
+    }
+
+/* Dấu chấm chỉ số */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+    .active, .dot:hover {
+        background-color: #717171;
+    }

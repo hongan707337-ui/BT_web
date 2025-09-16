@@ -1,27 +1,37 @@
 ﻿@{
     ViewData["Title"] = "Dashboard Doanh thu";
-    var labels = ViewBag.ChartLabels as string[];
-    var data = ViewBag.ChartData as decimal[];
+    var labels = ViewBag.ChartLabels;
+    var data = ViewBag.ChartData;
 }
 
 <div class="container mt-3">
-    <h2 class="mb-4">@ViewData["Title"] - @ViewBag.Year</h2>
-
-    <canvas id="revenueChart" width="600" height="300"></canvas>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-4">@ViewData["Title"] - @ViewBag.Year</h2>
+        <a href="@Url.Action("BaoCao", "DoanhThu")" class="btn btn-primary">Xem Báo cáo chi tiết</a>
+    </div>
+    <div class="doanh-thu-card fade-in-section p-3 bg-white">
+        <canvas id="revenueChart" width="600" height="300"></canvas>
+    </div>
 </div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        var ctx = document.getElementById('revenueChart').getContext('2d');
+        console.log("Labels:", @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ChartLabels)));
+        console.log("Data:", @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ChartData)));
+
+               var ctx = document.getElementById('revenueChart').getContext('2d');
         var revenueChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line', // Thay đổi từ 'bar' thành 'line'
             data: {
                 labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(labels)),
                 datasets: [{
                     label: 'Doanh thu (VNĐ)',
                     data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(data)),
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                    borderColor: 'rgba(54, 162, 235, 1)', // Màu của đường
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Màu nền dưới đường
+                    fill: true // Tô màu khu vực bên dưới đường
                 }]
             },
             options: {
@@ -31,7 +41,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return value.toLocaleString() + ' đ';
+                                return value.toLocaleString() + ' vnđ';
                             }
                         }
                     }

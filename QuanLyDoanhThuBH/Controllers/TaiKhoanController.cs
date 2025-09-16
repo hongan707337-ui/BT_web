@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using QuanLyDoanhThuBH.Data;
 using QuanLyDoanhThuBH.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace QuanLyDoanhThuBH.Controllers
 {
@@ -32,6 +33,7 @@ namespace QuanLyDoanhThuBH.Controllers
             {
                 _context.Add(taiKhoan);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Đăng ký thành công! Bạn có thể đăng nhập bây giờ.";
                 return RedirectToAction("DangNhap","TaiKhoan"); // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
             }
             return View(taiKhoan);
@@ -63,16 +65,13 @@ namespace QuanLyDoanhThuBH.Controllers
         }
 
         // GET: TaiKhoan/DangXuat
-        [HttpGet]
-        public async Task<IActionResult> DangXuat()
+        [HttpPost]
+        public IActionResult DangXuat()
         {
-            // Xóa cookie đăng nhập
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            // ✅ Chuyển về Home sau khi logout
+            // 2. Chuyển hướng người dùng về trang chủ sau khi đã đăng xuất
             return RedirectToAction("Index", "Home");
         }
 
-}
+    }
 }
 

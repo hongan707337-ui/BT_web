@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    var area = ViewContext.RouteData.Values["area"]?.ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,25 +15,46 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Quản Lý Doanh Thu</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link text-white" asp-controller="Home" asp-action="TrangChu">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" asp-controller="HoaDon" asp-action="Index">Hóa đơn</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" asp-controller="KhachHang" asp-action="Index">Khách hàng</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" asp-controller="SanPham" asp-action="Index">Sản phẩm</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" asp-controller="DoanhThu" asp-action="Index">Doanh thu</a></li>
-                    </ul>
-                   
+        @* Chỉ hiển thị nav nếu không ở Home/Index *@
+        @if (!(
+        (controller == "Home" && action == "Index") ||
+        (controller == "TaiKhoan" && action == "DangNhap")
+        ))
+        {
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="TrangChu">Quản Lý Doanh Thu</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link text-white" asp-controller="Home" asp-action="TrangChu">Trang chủ</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" asp-controller="HoaDon" asp-action="Index">Hóa đơn</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" asp-controller="KhachHang" asp-action="Index">Khách hàng</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" asp-controller="SanPham" asp-action="Index">Sản phẩm</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" asp-controller="DoanhThu" asp-action="Index">Doanh thu</a></li>
+                        </ul>
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <form id="logoutForm" asp-controller="TaiKhoan" asp-action="DangXuat" method="post" class="d-inline">
+                                <button type="button" class="btn btn-link nav-link" onclick="confirmLogout()">Đăng xuất</button>
+                                </form>
+                            </li>
+                        </ul>
+
+                        <script>
+                            function confirmLogout() {
+                                if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
+                                    document.getElementById('logoutForm').submit();
+                                }
+                            }
+                        </script>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">
